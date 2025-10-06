@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Update system
+export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get upgrade -y
 
@@ -118,7 +119,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/opt/todoapp
-ExecStart=/usr/bin/python3 app.py
+ExecStart=/usr/bin/python3 /opt/todoapp/app.py
 Restart=always
 
 [Install]
@@ -152,3 +153,4 @@ systemctl start todoapp
 systemctl restart nginx
 
 echo "ToDo List application installed and running!"
+echo "Access your application at: http://$(curl -s ifconfig.me)"

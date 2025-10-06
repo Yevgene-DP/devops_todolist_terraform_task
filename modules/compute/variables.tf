@@ -22,6 +22,10 @@ variable "public_ip_address_id" {
   type = string
 }
 
-variable "ssh_public_key" {
+variable "ssh_key_public" {
+  type = string
+}
+
+variable "network_security_group_id" {
   type = string
 }

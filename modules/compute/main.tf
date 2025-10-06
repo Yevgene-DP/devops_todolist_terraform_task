@@ -11,6 +11,12 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
+# Associate NSG with network interface
+resource "azurerm_network_interface_security_group_association" "main" {
+  network_interface_id      = azurerm_network_interface.main.id
+  network_security_group_id = var.network_security_group_id
+}
+
 resource "azurerm_linux_virtual_machine" "main" {
   name                = var.vm_name
   resource_group_name = var.resource_group_name
@@ -23,7 +29,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = var.ssh_public_key
+    public_key = var.ssh_key_public
   }
 
   os_disk {
@@ -48,7 +54,14 @@ resource "azurerm_virtual_machine_extension" "app_install" {
 
   settings = <<SETTINGS
     {
-      "script": "${base64encode(file("${path.module}/install-app.sh"))}"
+      "fileUris": ["https://raw.githubusercontent.com/Yevgene-DP/devops_todolist_terraform_task/main/install-app.sh"],
+      "commandToExecute": "curl -s https://raw.githubusercontent.com/Yevgene-DP/devops_todolist_terraform_task/main/install-app.sh | bash"
     }
   SETTINGS
+
+  protected_settings = <<PROTECTED
+    {
+      "commandToExecute": "curl -s https://raw.githubusercontent.com/Yevgene-DP/devops_todolist_terraform_task/main/install-app.sh | bash"
+    }
+  PROTECTED
 }
