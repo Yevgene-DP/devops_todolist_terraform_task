@@ -1,4 +1,3 @@
-cat > .gitignore << 'EOF'
 # Local .terraform directories
 **/.terraform/*
 
@@ -30,9 +29,34 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Ignore lock file
+.terraform.lock.hcl
+
 # Terragrunt cache
 .terragrunt-cache/
 
-# Lock files
-.terraform.lock.hcl
-EOF
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Local backup files
+*.backup
+*.bak
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
